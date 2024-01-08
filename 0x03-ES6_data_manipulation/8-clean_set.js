@@ -4,7 +4,7 @@ export default function cleanSet(set, startString) {
     return '';
   }
   for (const value of set) {
-    if (typeof startString === 'string' && value.startsWith(startString)) {
+    if (typeof value === 'string' && value.startsWith(startString)) {
       const substring = value.substring(startString.length);
       if (substring && substring !== value) {
         strings.push(substring);
