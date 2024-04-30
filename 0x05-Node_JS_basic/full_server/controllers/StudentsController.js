@@ -29,15 +29,19 @@ class StudentsController {
 
     if (!MAJORS.includes(major)) {
       response.status(500).send('Major parameter must be CS or SWE');
+      return;
     }
     readDatabase(databaseFile)
       .then((studentsByFields) => {
-        const responseText = `${
-          studentsByFields[major].map(
-            (student) => student.firstName,
-          ).join(', ')}`;
+        let responseText = '';
 
-        response.status(200).send(responseText === '' ? '' : `List: ${responseText}`);
+        if (Object.keys(studentsByFields).includes(major)) {
+          responseText = `List: ${
+            studentsByFields[major].map(
+              (student) => student.firstName,
+            ).join(', ')}`;
+        }
+        response.status(200).send(responseText);
       })
       .catch((err) => {
         response.status(500).send(err instanceof Error ? err.message : err.toString());
@@ -45,4 +49,5 @@ class StudentsController {
   }
 }
 
+export default StudentsController;
 module.exports = StudentsController;

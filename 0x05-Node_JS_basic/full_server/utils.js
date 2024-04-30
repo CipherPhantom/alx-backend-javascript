@@ -22,7 +22,7 @@ function readDatabase(path) {
               age: parseInt(fields[2].trim(), 10),
               field: fields[3].trim(),
             };
-            if (!(student.field in studentsByFields)) {
+            if (!(Object.keys(studentsByFields).includes(student.field))) {
               studentsByFields[student.field] = [];
             }
             studentsByFields[student.field].push(student);
@@ -34,4 +34,5 @@ function readDatabase(path) {
   });
 }
 
+export default readDatabase;
 module.exports = readDatabase;
