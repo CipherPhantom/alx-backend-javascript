@@ -9,7 +9,8 @@ function countStudents(path) {
     fs.readFile(path, 'utf-8', (error, data) => {
       if (error) {
         reject(Error('Cannot load the database'));
-      } else {
+      }
+      if (data) {
         const students = [];
 
         data.trim().split('\n').forEach((line, index) => {
@@ -44,6 +45,7 @@ function countStudents(path) {
             ).join(', ')
           }`);
         });
+        resolve(true);
       }
     });
   });
