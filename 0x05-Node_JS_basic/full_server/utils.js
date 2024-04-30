@@ -11,7 +11,7 @@ function readDatabase(path) {
         reject(Error('Cannot load the database'));
       }
       if (data) {
-        const students = [];
+        const studentsByFields = {};
 
         data.trim().split('\n').forEach((line, index) => {
           const fields = line.trim().split(',');
@@ -22,10 +22,13 @@ function readDatabase(path) {
               age: parseInt(fields[2].trim(), 10),
               field: fields[3].trim(),
             };
-            students.push(student);
+            if (!(student.field in studentsByFields)) {
+              studentsByFields[student.field] = [];
+            }
+            studentsByFields[student.field].push(student);
           }
         });
-        resolve(students);
+        resolve(studentsByFields);
       }
     });
   });

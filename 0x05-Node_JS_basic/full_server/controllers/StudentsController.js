@@ -5,22 +5,13 @@ const databaseFile = process.argv.length > 2 ? process.argv[2] : '';
 class StudentsController {
   static getAllStudents(request, response) {
     readDatabase(databaseFile)
-      .then((students) => {
+      .then((studentsByFields) => {
         const responseText = ['This is the list of our students'];
-        const fieldsCount = {};
 
-        students.forEach((student) => {
-          if (student.field in fieldsCount) {
-            fieldsCount[student.field] += 1;
-          } else {
-            fieldsCount[student.field] = 1;
-          }
-        });
-
-        Object.keys(fieldsCount).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+        Object.keys(studentsByFields).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
           .forEach((field) => {
-            responseText.push(`Number of students in ${field}: ${fieldsCount[field]}. List: ${
-              students.filter((student) => student.field === field).map(
+            responseText.push(`Number of students in ${field}: ${studentsByFields[field].length}. List: ${
+              studentsByFields[field].map(
                 (student) => student.firstName,
               ).join(', ')
             }`);
@@ -40,9 +31,9 @@ class StudentsController {
       response.status(500).send('Major parameter must be CS or SWE');
     }
     readDatabase(databaseFile)
-      .then((students) => {
+      .then((studentsByFields) => {
         const responseText = `${
-          students.filter((student) => student.field === major).map(
+          studentsByFields[major].map(
             (student) => student.firstName,
           ).join(', ')}`;
 
