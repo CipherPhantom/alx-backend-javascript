@@ -8,9 +8,9 @@ const { expect } = require('chai');
 describe('Index page', () => {
   const API_URL = 'http://localhost:7865';
   it('GET /', () => {
-    request.get(API_URL, (error, response, body) => {
+    request.get(`${API_URL}/`, (error, response, body) => {
       expect(response.statusCode).to.be.equals(200);
-      expect(body).to.be.equals('Welcome to the payment system');
+      expect(body).to.be.equal('Welcome to the payment system');
     });
   });
 });
